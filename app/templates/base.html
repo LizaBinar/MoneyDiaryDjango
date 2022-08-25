@@ -1,0 +1,28 @@
+<!doctype  html>
+{% load static %}
+<html lang="en">
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'bootstrap-5.2.0-dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+
+    <title>Вход:</title>
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <h1 class="text-center">Django Authentication Example</h1>
+            {% block main %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+</body>
+</html>
