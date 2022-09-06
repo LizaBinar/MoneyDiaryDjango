@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% comment %}
+{% block sidebar %}
+    {% include 'inc/_sidebar.html' %}
+{% endblock %}
+{% endcomment %}
+{% block profile %}
+{% include 'inc/_profile.html' %}
+{% endblock %}
+
+{% block menu %}
+{% include 'transaction includes/profile_finances_sidebar.html' %}
+{% endblock %}
+
+{% load money_tags %}
+
+{% block content %}
+    {{ mixin_prop }}
+    {% for category in categories %}
+        <div href="{% url 'add_expenditure' %}" class="card mb-1">
+            <a type="a" href="{% url 'add_expenditure' %}" class="btn btn-outline-primary">{{ category.category }}</a>
+        </div>
+    {% endfor %}
+{% endblock %}
