@@ -1,7 +1,14 @@
 {% extends 'base.html' %}
 {% block main %}
-
-<p>You are logged out!</p>
-<a  href="{% url 'login' %}">Log in again</a>
-
+    <div class="logaut-page">
+        <div class="d-flex flex-col align-content-end flex-wrap card logaut-page__card">
+            <h3>Вы не авторизированны</h3>
+            <div href="" class="d-flex card mb-1">
+                <a type="a" href="{% url 'login' %}" class="btn btn-outline-primary">Войти</a>
+            </div>
+            <div href="" class="d-flex card mb-1">
+                <a type="a" href="{% url 'registration' %}" class="btn btn-outline-primary">Зарегистрироваться</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

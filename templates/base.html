@@ -8,21 +8,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{% static 'bootstrap-5.2.0-dist/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'bootstrap-4.6.2-dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap-4.6.2-dist/css/bootstrap-grid.css' %}">
+    <link rel="stylesheet" href="{% static 'font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'my_css/my_css.css' %}">
+    <link rel="stylesheet" href="{% static 'my_css/registration_sistem.css' %}">
+    <link rel="stylesheet" href="{% static 'my_css/transactions.css' %}">
+    <link rel="stylesheet" href="{% static 'my_css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'my_css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'my_css/my_drop_down.css' %}">
+    <link rel="stylesheet" href="{% static 'my_css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'my_css/profile_card.css' %}">
 
 
-    <title>Вход:</title>
+
+    {#    <link rel="stylesheet" href="{% static 'my_css/footerfooter.css' %}">#}
+    {#    <link rel="stylesheet" href="{% static 'my_css/footer.css' %}">#}
+
+
+    <title>{{ title }}</title>
 </head>
 <body>
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-4">
-            <h1 class="text-center">Django Authentication Example</h1>
-            {% block main %}
-            {% endblock %}
+
+
+{% block navbar %}
+    {% include 'inc/_navbar.html' %}
+{% endblock %}
+
+<div class="d-lg-flex justify-content-center" style="width: 100%">
+    <div class="block">
+        {#    <div class="">#}
+        <div class="d-flex flex-row block">
+            {% block profile %}{% endblock %}
+        </div>
+        <div class="d-flex flex-col block">
+            {% block menu %}{% endblock %}
+        </div>
+    </div>
+
+    <div class="block">
+        <div class="d-lg-flex flex-column block" >
+            {% block main %}{% endblock %}
+        </div>
+        <div class="d-lg-flex flex-column block" >
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <div class="block">
+        <div class="d-flex flex-col block">
+            {% block bonus_inf %}{% endblock %}
         </div>
     </div>
 </div>
+
+{% block footer %}
+    {% include 'inc/_footer.html' %}
+{% endblock %}
+
+<script type="text/javascript" src={% static "bootstrap-4.6.2-dist/js/bootstrap.bundle.js" %}></script>
+<script type="text/javascript" src={% static "jQuery/jquery-3.6.1.min.js" %}></script>
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.13/jquery.mask.js"></script>#}
+<script type="text/javascript" src={% static "jQuery/jquery.inputmask.min.js" %}></script>
+<script type="text/javascript" src={% static "jQuery/jquery.maskMoney.min.js" %}></script>
+<script type="text/javascript" src={% static "my_js/profile_card.js" %}></script>
+<script type="text/javascript" src={% static "my_js/my_drop_down.js" %}></script>
+<script type="text/javascript" src={% static "my_js/money_input.js" %}></script>
+
+
 </body>
 </html>
+
+

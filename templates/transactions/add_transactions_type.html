@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block profile %}
+    {% include 'inc/_profile.html' %}
+{% endblock %}
+
+{% block menu %}
+    {% include 'transaction includes/profile_finances_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="flex-col card my-chadow my-margin my-padding">
+        <h1>Добавление категории
+            {% if main_type == "True" %}
+                Дохода
+            {% else %}
+                Расхода
+            {% endif %}
+        </h1>
+        <div class="p-3">
+            <form action="{% url 'add_transaction_type' main_type %}" method="post">
+                <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"
+                      rel="stylesheet"/>
+                {% csrf_token %}
+                {{ form.as_p }}
+
+
+                {#                    <p>#}
+                {#                        <label for="id_icons">Иконка:</label>#}
+                {#                        <select name="icons" required="" id="id_icons">#}
+                {#                            <option value="" selected="">---------</option>#}
+                {#                            <option value="14">Горячая чашка&amp;#xf0f4;</option>#}
+                {#                            <option value="21">Деньги в руке---</option>#}
+                {#                            <option value="15">Кинопленка&amp;#xf008;</option>#}
+                {#                            <option value="13">Корзинка&amp;#xf291;</option>#}
+                {#                            <option value="18">Люди#xf0c0;</option>#}
+                {#                            <option value="19">Магазин---</option>#}
+                {#                            <option value="20">Подарок#xf06b;</option>#}
+                {#                            <option value="23">Портфель#xf0b1;</option>#}
+                {#                            <option value="17">Сердце#xf004;</option>#}
+                {#                            <option value="16">Транспорт#xf1b9;</option>#}
+                {#                            <option value="22">Человек с монетой---</option>#}
+                {#                        </select>#}
+                {#                    </p>#}
+
+
+                <button type="submit" class="btn btn-primary btn-block">Добавить тип транзакции</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+

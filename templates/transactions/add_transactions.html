@@ -7,22 +7,26 @@
 {% endcomment %}
 
 {% block profile %}
-{% include 'inc/_profile.html' %}
+    {% include 'inc/_profile.html' %}
 {% endblock %}
 
 {% block menu %}
-{% include 'transaction includes/profile_finances_sidebar.html' %}
+    {% include 'transaction includes/profile_finances_sidebar.html' %}
 {% endblock %}
 
 {% block content %}
 
-<h1>Добавление записи о расходе</h1>
+    <div class="flex-col card box-shadow:0 1px 15px darkgrey my-padding my-chadow" style="margin: 15px">
+        <h1>Добавление транзакции</h1>
 
-<form action="{% url 'add_transaction' category.pk %}" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary btn-block">Добавить запись</button>
-</form>
+        <div class="p-3">
+            <form action="{% url 'add_transaction' category.pk %}" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary btn-block">Добавить запись</button>
+            </form>
+        </div>
+    </div>
 
 {% endblock %}
 

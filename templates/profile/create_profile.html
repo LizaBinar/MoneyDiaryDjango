@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% comment %}
+{% block sidebar %}
+    {% include 'inc/_sidebar.html' %}
+{% endblock %}
+{% endcomment %}
+
+{% block profile %}
+    {% include 'inc/_profile.html' %}
+{% endblock %}
+
+{% block menu %}
+    {% include 'transaction includes/profile_finances_sidebar.html' %}
+{% endblock %}
+
+
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <div class="header-bar">
+            <a href="{% url 'tasks' %}">&#8592; Back</a>
+        </div>
+    &lt;div class="card-body"&gt;
+        &lt;form method="POST" action="" enctype="multipart/form-data"&gt;
+            {% csrf_token %}
+            {{form.as_p}}
+            &lt;input class="button" type="submit" value="Submit"&gt;
+        &lt;/form&gt;
+    &lt;/div&gt;
+{% else %}
+    &lt;a href="{% url 'login' %}"&gt;Login&lt;/a&gt;
+{% endif %}
+
+{% endblock content %}

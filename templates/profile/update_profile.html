@@ -1,4 +1,17 @@
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Update">
-</form>
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="card my-chadow my-margin my-padding">
+        <h1>Выберите новую аватарку</h1>
+        {#    <form action="" method="post">#}
+        <form method="POST" enctype="multipart/form-data" action="" novalidate>
+            {% csrf_token %}
+            {{ form.as_p }}
+{#            <input class="button" type="submit" value="Update"/>#}
+
+            <button type="submit" class="btn btn-primary btn-block">Изменить аватарку</button>
+
+        </form>
+    </div>
+
+{% endblock content %}

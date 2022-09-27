@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block profile %}
+    {% include 'inc/_profile.html' %}
+{% endblock %}
+
+{% block menu %}
+    {% include 'transaction includes/profile_finances_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="flex-col card my-chadow my-margin my-padding">
+        <h1>{{ account.title }}</h1>
+        <div class="p-1">
+            <p>Баланс: <b>{{ account.currency }} {{ account.balans }}</b></p>
+            <p>Тип: {{ account.accounts_type.title }}</p>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% comment %}
+{% block sidebar %}
+    {% include 'inc/_sidebar.html' %}
+{% endblock %}
+{% endcomment %}
+
+{% block profile %}
+    {% include 'inc/_profile.html' %}
+{% endblock %}
+
+{% block menu %}
+    {% include 'transaction includes/profile_finances_sidebar.html' %}
+{% endblock %}
+
+{% load money_tags %}
+
+{% block content %}
+    <div class="card my-chadow my-margin">
+        <div class="my-padding">
+            <h3>История транзакций</h3>
+        </div>
+        {{ mixin_prop }}
+
+        {% if transactions == NULL %}
+            <h6>transactions == NULL</h6>
+        {% else %}
+            <div class="">
+
+
+                {% for item in transactions %}
+                    {% ifchanged item.data_time|date:"dm" %}
+
+                        <div class="d-flex justify-content-center transaction-time">
+                            <p><b>{{ item.data_time|date:"d.m, D" }}</b></p>
+                        </div>
+                    {% endifchanged %}
+
+
+
+                    {% if item.transactions_type.main_type %}
+                        <div class="d-flex flex-row transaction justify-content-between transaction p-1 transaction__bg-green">
+                            <div class="d-flex align-items-center my-padding">
+                                <img src="/static/bootstrap-icons-1.9.1/{{ item.transactions_type.icons.file }}.svg"
+                                     width="30" height="30" class="d-inline-block align-top" alt="">
+                            </div>
+                            <div class="d-flex flex-column align-items-center transaction__right_info">
+                                <div class="d-flex">
+                                    <a href="{% url 'transaction_detail' item.pk %}">
+                                        <h5>{{ item.transactions_type.currency }} {{ item.money_value|money_filter }}</h5>
+                                    </a>
+                                </div>
+                                <div class="d-flex">
+                                    <p>{{ item.accounts }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="d-flex flex-row transaction justify-content-between p-1 transaction__bg-red">
+                            <div class="d-flex align-items-center my-padding">
+                                <img src="/static/bootstrap-icons-1.9.1/{{ item.transactions_type.icons.file }}.svg"
+                                     width="30" height="30" class="d-inline-block align-top" alt="">
+                            </div>
+                            <div class="d-flex flex-column align-items-center transaction__right_info">
+                                <div class="d-flex">
+                                    <h5>{{ item.accounts.currency }} {{ item.money_value|money_filter }}</h5>
+                                </div>
+                                <div class="d-flex">
+                                    <p>{{ item.accounts }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% empty %}
+                    <div class="transaction my-margin">
+                        <h6 class="text-secondary">Туть пусто.</h6>
+                    </div>
+                {% endfor %}
+{#                <div class="transaction-time"></div>#}
+                </div>
+        {% endif %}
+
+
+
+        </div>
+
+{% endblock %}
+
+{% block bonus_inf %}
+    {% include 'transaction includes/make_transactions_sidebar.html' %}
+{% endblock %}

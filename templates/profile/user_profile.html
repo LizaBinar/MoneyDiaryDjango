@@ -6,48 +6,73 @@
 {% endblock %}
 {% endcomment %}
 
-{% block profile %}
-    {% include 'inc/_profile.html' %}
-{% endblock %}
+{#{% block profile %}#}
+{#    {% include 'inc/_profile.html' %}#}
+{#{% endblock %}#}
 
-{% block menu %}
-    {% include 'transaction includes/profile_finances_sidebar.html' %}
-{% endblock %}
+{#{% block menu %}#}
+{#    {% include 'transaction includes/profile_finances_sidebar.html' %}#}
+{#{% endblock %}#}
 
 
 
 {% block content %}
 
-    <div class="header-bar">
-        <h1>Profile</h1>
 
-        <a href="{% url 'tasks' %}">&#8592; Back</a>
 
-    </div>
-
-    <div class="card-body">
+    <div class="card my-chadow my-margin" style="width: 18rem;">
         {% if user.profile.profile_pic %}
-            <img src="{{ profile.profile_pic.url }}" height=100 width=100><br><br>
+            <img src="{{ profile.profile_pic.url }}" class="card-img-top" alt=""><br><br>
         {% else %}
-            <img src="{% static 'base\images\profile\user.png' %}" height=100 width=100><br><br>
-        {% endif %}
-        <p><strong>Username:</strong> {{ page_user }}</p><br><br>
-        <p><strong>Bio:</strong> {{ profile.bio }}</p><br><br>
-        {% if profile.twitter %}
-            <p><strong>Twitter:</strong> {{ profile.twitter }}</p><br><br>
-        {% endif %}
-        {% if profile.instagram %}
-            <p><strong>Instagram:</strong> {{ profile.instagram }}</p><br><br>
-        {% endif %}
-        {% if profile.facebook %}
-            <p><strong>Facebook:</strong> {{ profile.facebook }}</p><br><br>
+            <img src="/static/media_files/empty_avatar.png" class="avatar" alt="Avatar"><br><br>
         {% endif %}
 
-        {% if user.id == profile.user.id %}
-            <a href="{% url 'edit_user_profile' profile.id %}">
-                <button class="button">Edit</button>
-            </a>
-        {% endif %}
+        <div class="card-body">
+            <h5 class="card-title">{{ page_user }}</h5>
+{#            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's#}
+{#                content.</p>#}
+            <a href="{% url 'update_user_profile' profile.id %}" class="btn btn-primary">Сменить аватарку</a>
+        </div>
     </div>
+
+
+    {#        <div class="d-flex flex-column card profile-card my-padding my-margin my-chadow">#}
+    {#            <div class="d-flex flex-row header-bar">#}
+    {#                <h1>Профиль</h1>#}
+    {##}
+    {#                <a class="my-padding" href="{% url 'transactions_home' %}">&#8592; На главную</a>#}
+    {#            </div>#}
+    {#            <div class="d-flex flex-row justify-content-between">#}
+    {#                <div class="d-flex flex-column">#}
+    {#                    {% if user.profile.profile_pic %}#}
+    {#                        <img src="{{ profile.profile_pic.url }}" class="avatar" alt="Avatar"><br><br>#}
+    {#                    {% else %}#}
+    {#                        <img src="/static/media_files/empty_avatar.png" class="avatar" alt="Avatar"><br><br>#}
+    {#                    {% endif %}#}
+    {#                    <p><strong>Имя:</strong> {{ page_user }}</p><br><br>#}
+    {#                </div>#}
+    {#                <div class="d-flex flex-column">#}
+    {#                    <p><strong>Bio:</strong> {{ profile.bio }}</p><br><br>#}
+    {#                    {% if profile.twitter %}#}
+    {#                        <p><strong>Twitter:</strong> {{ profile.twitter }}</p><br><br>#}
+    {#                    {% endif %}#}
+    {#                    {% if profile.instagram %}#}
+    {#                        <p><strong>Instagram:</strong> {{ profile.instagram }}</p><br><br>#}
+    {#                    {% endif %}#}
+    {#                    {% if profile.facebook %}#}
+    {#                        <p><strong>Facebook:</strong> {{ profile.facebook }}</p><br><br>#}
+    {#                    {% endif %}#}
+    {##}
+    {#                    {% if user.id == profile.user.id %}#}
+    {#                        <a href="{% url 'transactions_home' %}">#}
+    {#                            <div class="button">#}
+    {##}
+    {#                                <a href="{% url 'update_user_profile' profile.id %}" class="btn btn-primary">Edit</a>#}
+    {#                            </div>#}
+    {#                        </a>#}
+    {#                    {% endif %}#}
+    {#                </div>#}
+    {#            </div>#}
+    {#        </div>#}
 
 {% endblock content %}

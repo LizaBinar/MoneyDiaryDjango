@@ -6,20 +6,59 @@
 {% endblock %}
 {% endcomment %}
 {% block profile %}
-{% include 'inc/_profile.html' %}
+    {% include 'inc/_profile.html' %}
 {% endblock %}
 
 {% block menu %}
-{% include 'transaction includes/profile_finances_sidebar.html' %}
+    {% include 'transaction includes/profile_finances_sidebar.html' %}
 {% endblock %}
 
 {% load money_tags %}
 
+
 {% block content %}
-    {{ mixin_prop }}
-    {% for category in categories %}
-        <div href="{% url 'add_expenditure' %}" class="card mb-1">
-            <a type="a" href="{% url 'add_expenditure' %}" class="btn btn-outline-primary">{{ category.category }}</a>
+    <div class="flex-col p-2 m-2" style="margin: 15px; width: 100%">
+        <h4>Выбери категорию</h4>
+        {{ mixin_prop }}
+        <div class="d-flex flex-col card p-3 my-chadow" style="margin: 15px;">
+            <h3>Доходы</h3>
+
+
+            {% for income in income %}
+
+                <div class="d-flex flex-row transaction_type align-items-center">
+                    <div class="d-flex align-items-center my-padding">
+                        <img src="/static/bootstrap-icons-1.9.1/{{ income.icons.file }}.svg"
+                             width="30" height="30" class="d-inline-block align-top" alt="">
+                    </div>
+                    <div href="{% url 'add_transaction' income.pk %}" class="d-flex mb-1">
+                        <a type="a" href="{% url 'add_transaction' income.pk %}"
+                           class="btn btn-outline-primary transaction_type__button"><b>{{ income.currency }}</b> {{ income.category }}</a>
+                    </div>
+                </div>
+            {% endfor %}
+            <div href="" class="d-flex card mb-1">
+                <a type="a" href="{% url 'add_transaction_type' 'True' %}" class="btn btn-outline-primary">+</a>
+            </div>
         </div>
-    {% endfor %}
+
+        <div class="d-flex flex-col card p-3 my-chadow" style="margin: 15px;">
+            <h3>Расходы</h3>
+            {% for expenditure in expenditure %}
+               <div class="d-flex flex-row transaction_type align-items-center">
+                    <div class="d-flex align-items-center my-padding">
+                        <img src="/static/bootstrap-icons-1.9.1/{{ expenditure.icons.file }}.svg"
+                             width="30" height="30" class="d-inline-block align-top" alt="">
+                    </div>
+                    <div href="{% url 'add_transaction' expenditure.pk %}" class="d-flex mb-1">
+                        <a type="a" href="{% url 'add_transaction' expenditure.pk %}"
+                           class="btn btn-outline-primary transaction_type__button"><b>{{ expenditure.currency }}</b> {{ expenditure.category }}</a>
+                    </div>
+                </div>
+            {% endfor %}
+            <div href="" class="d-flex card mb-1">
+                <a type="a" href="{% url 'add_transaction_type' 'False' %}" class="btn btn-outline-primary">+</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -1,10 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% block acounts_menu %}
+    {% load money_tags %}
+
+    <div class="card p-1 my-chadow my-margin profile-menu" href="{% url 'transactions_home' %}">
+        <div class="my-margin">
+            <h4 class="accounts" href="{% url 'transactions_home' %}">Счета:</h4>
+        </div>
+        <ul class="list-group">
+            <div class="list-group-item">
+                <a href="{% url 'add_account' %}" class="btn btn-primary my-margin">Добавить Счёт</a>
+            </div>
+            {% for account in accounts %}
+                <li class="list-group-item" aria-current="true">
+                    <div class="">
+                        <div class="accounts">
+                            <h5>{{ account.title }}</h5>
+                        </div>
+                        <div class="">
+                            <a href="{% url 'account_detail' account.pk %}">{{ account.currency }} {{ account.balans|money_filter }}</a>
+                        </div>
+                        <div class="" title="{{ account.accounts_type.title }}">
+                            <a href="{% url 'account_detail' account.pk %}">{{ account.accounts_type.title }}</a>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}

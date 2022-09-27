@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block profile %}
+    {% include 'inc/_profile.html' %}
+{% endblock %}
+
+{% block menu %}
+    {% include 'transaction includes/profile_finances_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="flex-col card my-chadow my-margin my-padding">
+        <h1>Детали транзакции</h1>
+        <div class="p-1">
+            <p>
+
+                {% if  transactions.transactions_type.main_type %}
+                    Доход:
+                {% else %}
+                    Расход:
+                {% endif %}
+                <b>{{ transactions.transactions_type.category }}</b></p>
+            <p>Сумма: <b>{{ transactions.transactions_type.currency }} {{ transactions.money_value }}</b></p>
+            <p class="text-justify transaction-card__comment_text">Примечание: {{ transactions.comment }}</p>
+            <p>Время добавления: {{ transactions.data_time }}</p>
+            <p>Cчёт транзакции: <b>{{ transactions.accounts.title }}</b></p>
+        </div>
+    </div>
+
+
+
+
+
+
+{% endblock %}
