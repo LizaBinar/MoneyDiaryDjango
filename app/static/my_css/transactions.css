@@ -1,0 +1,124 @@
+.main-content-block {
+    width: 35vw;
+}
+
+.transaction {
+    width: 100%;
+}
+
+.my-transaction {
+    border-bottom: 1px solid #eeeeee;
+    border-top: 1px solid #eeeeee;
+}
+
+.transaction__right_info {
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.transaction__bg-green {
+    height: 80px;
+    border-top: 1px solid #2fa900;
+    /*border-bottom: 1px solid #2fa900;*/
+    background-color: #c3e5ca;
+}
+
+.transaction-time {
+    height: 27px;
+}
+
+.transaction__bg-green + .transaction-time  {
+    border-top: 1px solid #2fa900;
+}
+
+.transaction__bg-red {
+    height: 80px;
+    border-top: 1px solid #ff4656;
+    /*border-bottom: 1px solid #ff4656;*/
+    background-color: #f5c6cc;
+}
+
+.transaction__bg-red + .transaction-time {
+    border-top: 1px solid #ff4656;
+}
+
+/*checkbox for type transactions*/
+
+input[type="checkbox"].main_type {
+    border-radius: 3px;
+    border: 1px solid #121212;
+    -webkit-appearance: initial;
+    appearance: initial;
+    width: 80px;
+    height: 35px;
+    background: #f3c5cb;
+    position: relative;
+
+}
+
+input[type="checkbox"].main_type:empty:after {
+    content: "Расход";
+    color: #000;
+    /* The following positions my tick in the center,
+     * but you could just overlay the entire box
+     * with a full after element with a background if you want to */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    /*-webkit-transform: translate(-50%,-50%);*/
+    /*-moz-transform: translate(-50%,-50%);*/
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+input[type="checkbox"].main_type:checked {
+    background: #c1e3c9;
+}
+
+input[type="checkbox"].main_type:checked:after {
+    /* Here's your symbol replacement
+    this is a tick in Unicode. */
+    content: "Доход";
+    color: #000;
+    /* The following positions my tick in the center,
+     * but you could just overlay the entire box
+     * with a full after element with a background if you want to */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    /*
+     * If you want to fully change the check appearance, use the following:
+     * content: " ";
+     * width: 100%;
+     * height: 100%;
+     * background: blue;
+     * top: 0;
+     * left: 0;
+     */
+}
+
+
+.transaction_type {
+    width: 100%;
+}
+
+.transaction_type__button {
+    width: 200px;
+    height: 40px
+}
+
+.transaction-card__comment_text {
+    width: 50vw;
+}
+
+.make_transaction_sidebar__button {
+    margin: 5px;
+    width: 100%;
+}
+
+

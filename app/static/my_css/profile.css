@@ -1,0 +1,11 @@
+.avatar {
+    padding: 5px;
+    vertical-align: middle;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+}
+
+.profile-menu {
+    width: 100%;
+}

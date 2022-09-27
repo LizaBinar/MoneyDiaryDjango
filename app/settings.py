@@ -10,24 +10,33 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-from pathlib import Path
+from decouple import config
+
 import os
+from pathlib import Path
+
+
+SECRET_DJANGO_KEY = config('SECRET_DJANGO_KEY', default='')
+PG_PASSWORD = config('PG_PASSWORD', default='')
+PG_USER = config('PG_USER', default='')
+GM_ADDRESS = config('GM_ADDRESS', default='')
+GM_PASSWORD = config('GM_ADDRESS', default='')
+
+# password = config('password',default='')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-8=dj+6e)7_wnx643mf5-ohu0h+6b8+9a*66ps!8*p_g2#uwn0v'
+SECRET_KEY = SECRET_DJANGO_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -40,7 +49,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',  # Приложение для бустрапа4, + добавлена константа CRISPY_TEMPLATE_PACK.
     'users',
-    'transactions'
+    'transactions',
+    'debug_toolbar',
+    'accounts',
+    'captcha',
+    'profiles'
 ]
 
 MIDDLEWARE = [
@@ -51,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware"
 ]
 
 ROOT_URLCONF = 'app.urls'
@@ -73,7 +87,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'app.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -81,8 +94,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'DjangoDataBase',
-        'USER': 'postgres',
-        'PASSWORD': 'Hfccbz111.',
+        'USER': PG_USER,
+        'PASSWORD': PG_PASSWORD,
         'HOST': 'localhost',
         'PORT': '5432'
     }
@@ -106,7 +119,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -117,7 +129,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -133,15 +144,24 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-LOGIN_REDIRECT_URL = '/admin/'
+LOGIN_REDIRECT_URL = '/transactions/transactions/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'ivanbayandin203@gmail.com'
-EMAIL_HOST_PASSWORD = 'xxzsehbrosrjuzaf'
+EMAIL_HOST_USER = GM_ADDRESS
+EMAIL_HOST_PASSWORD = GM_PASSWORD
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'default from email'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+
+FILE_UPLOAD_HANDLERS = ("django_excel.ExcelMemoryFileUploadHandler",
+                        "django_excel.TemporaryExcelFileUploadHandler")
