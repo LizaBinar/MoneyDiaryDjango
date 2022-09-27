@@ -1,17 +1,52 @@
-from openpyxl import Workbook
-from openpyxl.utils import get_column_letter
-wb = Workbook()
-dest_filename = '../exel_files/transactions_history.xlsx'
-ws1 = wb.active
-ws1.title = "range names"
-for row in range(1, 40):
-    ws1.append(range(600))
-ws2 = wb.create_sheet(title="Pi")
-ws2['F5'] = 3.14
-ws3 = wb.create_sheet(title="Data")
-for row in range(10, 20):
-    for col in range(27, 54):
-        _ = ws3.cell(column=col, row=row, value="{0}".format(get_column_letter(col)))
-print(ws3['AA10'].value)
+import openpyxl
+from openpyxl.styles import Font, PatternFill
 
-wb.save(filename=dest_filename)
+
+def make_color_transaction_xlsx(transaction, row):
+    if transaction.money_value > 0:
+        for cell in row:
+            cell.fill = PatternFill(fgColor="C1E3C9", fill_type="solid")
+    else:
+        for cell in row:
+            cell.fill = PatternFill(fgColor="F3C5CB", fill_type="solid")
+
+
+def completion_transactions_xlsx(list_table, count_transactions: int, transactions):
+    rows = list_table.iter_rows(min_row=2, max_col=5, max_row=count_transactions + 1)
+    for row, transactions_address in zip(rows, range(count_transactions)):
+        list_table.row_dimensions[row[0].row].height = 25
+        transaction = transactions[transactions_address]
+        row[0].value = transaction.data_time.replace(tzinfo=None)
+        row[1].value = transaction.money_value
+        row[2].value = transaction.accounts.title
+        row[3].value = transaction.transactions_type.category
+        row[4].value = transaction.comment
+
+        make_color_transaction_xlsx(transaction, row)
+
+
+def make_xlsx_layout(list_table, transactions):
+    list_table.title = "transactions history"
+    list_table.column_dimensions['A'].width = 30
+    list_table.column_dimensions['B'].width = 30
+    list_table.column_dimensions['C'].width = 20
+    list_table.column_dimensions['D'].width = 20
+    list_table.column_dimensions['E'].width = 20
+    list_table['A1'] = "Дата добавления"
+    list_table['B1'] = "Денежная сумма"
+    list_table['C1'] = "Счёт"
+    list_table['D1'] = "Категория"
+    list_table['E1'] = "Примечания"
+    for cell in list_table['1']:
+        cell.font = Font(size=15, color="FFFFFF", bold=True, italic=True)
+        cell.fill = PatternFill(fgColor="007AFD", fill_type="solid")
+
+
+def make_xlsx_file_in_response(response, transactions):
+    wb = openpyxl.Workbook()
+    list_table = wb.active
+    make_xlsx_layout(list_table, transactions)
+    completion_transactions_xlsx(list_table, transactions.count(), transactions)
+    wb.save(response)
+    wb.close()
+    return response
