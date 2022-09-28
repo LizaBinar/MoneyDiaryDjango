@@ -9,16 +9,21 @@
 </p>
 
 ### About
-Сайт для ведения домашней бухгалтерии. 
+
+Сайт для ведения домашней бухгалтерии.
 
 ### Start
-Для запуска проекта, установите все библиотеки из requirements.txt
--  python manage.py makemigrations   
--  python manage.py migrate   
--  python manage.py runserver
 
-И переходите на домашнюю страницу. 
+Для запуска проекта, установите все библиотеки из requirements.txt
+
+- python manage.py makemigrations
+- python manage.py migrate
+- python manage.py loaddata start_icons.json
+- python manage.py runserver
+
+И переходите на домашнюю страницу.
 <b>http://127.0.0.1:8000/transactions/transactions/<b>
 
 ### Developers
- - [LIZA_BINAR](https://github.com/LizaBinar)
+
+- [LIZA_BINAR](https://github.com/LizaBinar)
