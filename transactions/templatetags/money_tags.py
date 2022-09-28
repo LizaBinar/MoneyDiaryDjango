@@ -6,6 +6,9 @@ register = template.Library()
 
 @register.filter
 def money_filter(value):
+    if value == '':
+        print('WTF')
+        return 'WTF' + str(value)
     value = float(value)
     minus = ''
     if value < 0:

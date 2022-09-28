@@ -1,18 +1,15 @@
-import os
 from urllib.parse import urlencode
 
-import openpyxl
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
 from django.http import QueryDict, HttpResponse
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView
+from qsstats import QuerySetStats
 
 from transactions.forms import TransactionFrom, AccountForm, TransactionTypeForm
-from transactions.models import Transactions, Accounts, TransactionsType, Icons
-
 from transactions.make_exel import make_xlsx_file_in_response
+from transactions.models import Transactions, Accounts, TransactionsType, Icons
 
 
 def sum_balans(accounts):
@@ -32,7 +29,28 @@ def upload_exel(request):
     return response
 
 
+def barchart(request):
+    # instantiate a drawing object
+    import mycharts
+    d = mycharts.MyBarChartDrawing()
 
+    # extract the request params of interest.
+    # I suggest having a default for everything.
+    if 'height' in request:
+        d.height = int(request['height'])
+    if 'width' in request:
+        d.width = int(request['width'])
+
+    if 'numbers' in request:
+        strNumbers = request['numbers']
+        numbers = map(int, strNumbers.split(','))
+        d.chart.data = [numbers]  # bar charts take a list-of-lists for data
+
+    if 'title' in request:
+        d.title.text = request['title']
+
+    binaryStuff = d.asString('gif')
+    return HttpResponse(binaryStuff, 'image/gif')
 
 
 class MyTransactions(LoginRequiredMixin, ListView):
@@ -46,12 +64,39 @@ class MyTransactions(LoginRequiredMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         accounts = Accounts.objects.filter(owner=self.request.user)
+        transactions = Transactions.objects.filter(owner=self.request.user)
         context = super().get_context_data(**kwargs)
+        stats = QuerySetStats(transactions, date_field='data_time', aggregate=Sum('money_value'))
+        #
+        # import mycharts
+        # d = mycharts.MyBarChartDrawing()
+        #
+        # # extract the request params of interest.
+        # # I suggest having a default for everything.
+        # if 'height' in self.request:
+        #     d.height = int(self.request['height'])
+        # if 'width' in self.request:
+        #     d.width = int(self.request['width'])
+        #
+        # if 'numbers' in self.request:
+        #     strNumbers = self.request['numbers']
+        #     numbers = map(int, strNumbers.split(','))
+        #     d.chart.data = [numbers]  # bar charts take a list-of-lists for data
+        #
+        # if 'title' in self.request:
+        #     d.title.text = self.request['title']
+        #
+        # binaryStuff = d.asString('gif')
+        # return HttpResponse(binaryStuff, 'image/gif')
+
+        # context['chart_file'] = MyBarChartDrawing().save(formats=['png'])
+        context['chart_file'] = '\MyBarChartDrawing000.png'
         context['title'] = 'Транзакции'
-        context['transactions'] = Transactions.objects.filter(owner=self.request.user)
+        context['transactions'] = transactions
         context['accounts'] = accounts
         context['user'] = self.request.user
         context['sum_balans'] = QueryDict(urlencode(sum_balans(accounts)))
+
         return context
 
 
@@ -214,5 +259,3 @@ class CreateTransactionType(CreateView):
 
     def get_queryset(self):
         return TransactionsType.objects.filter(owner=self.request.user)
-
-

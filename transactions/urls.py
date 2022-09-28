@@ -11,7 +11,7 @@ urlpatterns = [
     path('add_transaction/<int:category_id>/', CreateTransaction.as_view(), name='add_transaction'),
     path('add_account/', CreateAccount.as_view(), name='add_account'),
     path('add_transaction_type/<str:main_type>/', CreateTransactionType.as_view(), name='add_transaction_type'),
-    path('get_xlsx_file/', upload_exel, name="upload_exel")
+    path('get_xlsx_file/', upload_exel, name="upload_exel"),
 ]
 
 

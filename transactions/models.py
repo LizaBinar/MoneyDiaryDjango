@@ -153,18 +153,18 @@ class Transactions(models.Model):
 @receiver(post_save, sender=User)
 def save_or_create_profile(sender, instance, created, **kwargs):
     base_currency = Currency.objects.filter(title='₽').first()
-    expenditure_svg_id = [13, 14, 15, 16, 17, 18, 19, 20]
-    income_svg_id = [21, 22, 23, 20]
+    expenditure_svg_id = ['Корзинка', 'Горячая чашка', 'Кинопленка', 'Транспорт', 'Сердце', 'Люди', 'Магазин', 'Подарок']
+    income_svg_id = ['Деньги в руке', 'Человек с монетой', 'Портфель', 'Подарок']
     item_address = 0
     if created:
         for title in ['Продукты', 'Кафе', 'Досуг', 'Транспорт', 'Здоровье', 'Семья', 'Покупки', 'Подарки']:
             TransactionsType.objects.create(main_type=False, category=title, currency=base_currency, owner=instance,
-                                            icons_id=expenditure_svg_id[item_address])
+                                            icons=Icons.objects.get(title=expenditure_svg_id[item_address]))
             item_address += 1
         item_address = 0
         for title in ['Зарплата', 'Фриланс', 'Бизнес', 'Подарки']:
             TransactionsType.objects.create(main_type=True, category=title, currency=base_currency, owner=instance,
-                                            icons_id=income_svg_id[item_address])
+                                            icons=Icons.objects.get(title=income_svg_id[item_address]))
             item_address += 1
 
         Accounts.objects.create(balans=0, title='Кошелёк', currency=base_currency, owner=instance,
