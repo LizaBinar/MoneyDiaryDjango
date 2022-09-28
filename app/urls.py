@@ -12,7 +12,6 @@ urlpatterns = [
     path('captcha/', include('captcha.urls')),
     path('profile/', include('profiles.urls')),
     path('admin/', admin.site.urls),
-    path(r'charts/bar/$', barchart)
 ]
 
 
