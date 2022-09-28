@@ -14,7 +14,12 @@
 
 ### Start
 
-Для запуска проекта, установите все библиотеки из requirements.txt
+Для запуска проекта, установите все библиотеки из requirements.txt.
+Создайте файл .env в корне проекта и заполните его по примеру с изображения. 
+<p align="center">
+<img src="https://i.ibb.co/vZT58Qs/image.png"> 
+<p>
+Подставьте свой настройки в app/settings.py (Пароль и адрес своей почты. Данные для подключения БД.)
 
 - python manage.py makemigrations
 - python manage.py migrate
