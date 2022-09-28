@@ -2,6 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from transactions.views import barchart
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -10,7 +11,8 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('captcha/', include('captcha.urls')),
     path('profile/', include('profiles.urls')),
-    path('admin/', admin.site.urls)
+    path('admin/', admin.site.urls),
+    path(r'charts/bar/$', barchart)
 ]
 
 

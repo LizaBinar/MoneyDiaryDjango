@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'accounts',
     'captcha',
-    'profiles'
+    'profiles',
+    'googlecharts'
 ]
 
 MIDDLEWARE = [
