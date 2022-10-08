@@ -10,7 +10,6 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('captcha/', include('captcha.urls')),
     path('profile/', include('profiles.urls')),
-    path('admin/', admin.site.urls),
 ]
 
 
