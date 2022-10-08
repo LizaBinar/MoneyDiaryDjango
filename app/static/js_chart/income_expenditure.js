@@ -1,10 +1,13 @@
+"use strict"
+
 fetch('/transactions/make_income_expenditure/')
     .then((response) => {
-        const data = response.json();
+        return response.json();
+    })
+    .then((data) => {
 
-        var speedCanvas = document.getElementById("speedChart");
-
-        Chart.defaults.global.defaultFontSize = 12;
+        let speedCanvas = document.getElementById("speedChart");
+        // Chart.defaults.global.defaultFontSize = 12;
 
         let dataFirst = {
             label: "Расход",

@@ -1,9 +1,9 @@
 body {
+    height: 100%;
     background: #f0f0f0;
 }
 
 .block {
-
     margin-left: 10px;
     margin-right: 10px;
 }

@@ -22,7 +22,6 @@
     <link rel="stylesheet" href="{% static 'my_css/profile_card.css' %}">
 
 
-
     {#    <link rel="stylesheet" href="{% static 'my_css/footerfooter.css' %}">#}
     {#    <link rel="stylesheet" href="{% static 'my_css/footer.css' %}">#}
 
@@ -31,36 +30,39 @@
 </head>
 <body>
 
+<div style="min-height: 90vh">
 
-{% block navbar %}
-    {% include 'inc/_navbar.html' %}
-{% endblock %}
+    {% block navbar %}
+        {% include 'inc/_navbar.html' %}
+    {% endblock %}
 
-<div class="d-lg-flex justify-content-center" style="width: 100%">
-    <div class="block">
-        {#    <div class="">#}
-        <div class="d-flex flex-row block">
-            {% block profile %}{% endblock %}
+    <div class="d-lg-flex justify-content-center" style="width: 100%">
+        <div class="block">
+            {#    <div class="">#}
+            <div class="d-flex flex-row block">
+                {% block profile %}{% endblock %}
+            </div>
+            <div class="d-flex flex-col block">
+                {% block menu %}{% endblock %}
+            </div>
         </div>
-        <div class="d-flex flex-col block">
-            {% block menu %}{% endblock %}
+
+        <div class="block">
+            <div class="d-lg-flex flex-column block">
+                {% block main %}{% endblock %}
+            </div>
+            <div class="d-lg-flex flex-column block">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+
+        <div class="block">
+            <div class="d-flex flex-col block">
+                {% block bonus_inf %}{% endblock %}
+            </div>
         </div>
     </div>
 
-    <div class="block">
-        <div class="d-lg-flex flex-column block" >
-            {% block main %}{% endblock %}
-        </div>
-        <div class="d-lg-flex flex-column block" >
-            {% block content %}{% endblock %}
-        </div>
-    </div>
-
-    <div class="block">
-        <div class="d-flex flex-col block">
-            {% block bonus_inf %}{% endblock %}
-        </div>
-    </div>
 </div>
 
 {% block footer %}
