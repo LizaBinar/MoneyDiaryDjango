@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'accounts',
     'captcha',
     'profiles',
-    'googlecharts'
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
