@@ -9,10 +9,12 @@ from qsstats import QuerySetStats
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from transactions.forms import TransactionFrom, AccountForm, TransactionTypeForm
+from transactions.forms import TransactionForm, AccountForm, TransactionTypeForm
 from transactions.make_chart import make_chart
 from transactions.make_exel import make_xlsx_file_in_response
 from transactions.models import Transactions, Accounts, TransactionsType, Icons
+
+import datetime
 
 
 def sum_balans(accounts):
@@ -33,22 +35,19 @@ def upload_exel(request):
 
 
 class TransactionChartAPIView(APIView):
+
     def get(self, request):
         transactions = Transactions.objects.filter(owner=request.user)
         ratio_chart = make_chart(transactions, 'data_time__date')
         return Response({'label': ratio_chart['label'], 'income_data': ratio_chart['income_data'], 'expenditure_data': ratio_chart['expenditure_data']})
 
 
-
-
-class MyTransactions(LoginRequiredMixin, ListView):
+class HomePage(LoginRequiredMixin, ListView):
     model = Transactions
     template_name = "transactions/home_transactions_list.html"
     context_object_name = 'transactions'
     queryset = 'category'
     login_url = '/admin'
-
-    # extra_context = {'title': 'Главная'}
 
     def get_context_data(self, *, object_list=None, **kwargs):
         accounts = Accounts.objects.filter(owner=self.request.user)
@@ -60,7 +59,7 @@ class MyTransactions(LoginRequiredMixin, ListView):
         context['label'] = ratio_chart['label']
         context['income_data'] = ratio_chart['income_data']
         context['expenditure_data'] = ratio_chart['expenditure_data']
-        context['month'] = transactions.first().data_time
+        context['month'] = datetime.datetime.now()
 
         context['chart_file'] = '\MyBarChartDrawing000.png'
         context['title'] = 'Транзакции'
@@ -68,7 +67,6 @@ class MyTransactions(LoginRequiredMixin, ListView):
         context['accounts'] = accounts
         context['user'] = self.request.user
         context['sum_balans'] = QueryDict(urlencode(sum_balans(accounts)))
-
         return context
 
 
@@ -151,12 +149,12 @@ class CategoryListForMakeTransaction(LoginRequiredMixin, ListView):
 
 
 class CreateTransaction(LoginRequiredMixin, CreateView):
-    form_class = TransactionFrom
+    form_class = TransactionForm
     template_name = 'transactions/add_transactions.html'
     success_url = reverse_lazy('transactions_home')
     login_url = '/admin/'
 
-    def get_form(self, form_class=TransactionFrom):
+    def get_form(self, form_class=TransactionForm):
         category = TransactionsType.objects.filter(id=self.kwargs['category_id']).first()
         form = super().get_form(form_class=form_class)
         accounts = Accounts.objects.filter(owner=self.request.user, currency=category.currency)

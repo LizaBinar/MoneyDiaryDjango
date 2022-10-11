@@ -124,14 +124,14 @@
     }
   },
   {
-    "model": "transactions.accounts_type",
+    "model": "transactions.accountstype",
     "pk": 1,
     "fields": {
       "title": "Наличные средства"
     }
   },
   {
-    "model": "transactions.accounts_type",
+    "model": "transactions.accountstype",
     "pk": 2,
     "fields": {
       "title": "Банковская карта"

@@ -1,7 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.urls import reverse
 
 
@@ -140,6 +138,8 @@ class Transactions(models.Model):
         if (self.money_value == 0) or (self.money_value < 0 and self.transactions_type.main_type == True) or (
                 self.money_value > 0 and self.transactions_type.main_type == False):
             return False
+        if self.transactions_type.currency != self.accounts.currency:
+            return False
         super(Transactions, self).save(*args, **kwargs)
         instance = self.update_balans()
         return instance
@@ -148,5 +148,6 @@ class Transactions(models.Model):
         verbose_name = "Транзакция"
         verbose_name_plural = "Транзакции"
         ordering = ['-data_time']
+
 
 

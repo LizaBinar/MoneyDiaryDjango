@@ -1,0 +1,29 @@
+body {
+    height: 100%;
+    background: #f0f0f0;
+}
+
+.block {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.my-chadow {
+    box-shadow: 0 1px 15px darkgrey
+}
+
+.test {
+    color: #f3c5cb;
+}
+
+.my-margin {
+    margin: 17px;
+}
+
+.my-padding {
+    padding: 15px;
+}
+
+a {
+    color: #121212;
+}

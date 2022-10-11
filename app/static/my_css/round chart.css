@@ -1,0 +1,146 @@
+
+
+.canvas {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 400px;
+}
+
+.legend {
+  max-width: 100px;
+  margin-left: 30px;
+}
+
+.title {
+  font-family: "Verdana", sans-serif;
+  font-size: 18px;
+  line-height: 21px;
+  color: #591d48;
+}
+
+.caption-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.caption-item {
+  position: relative;
+
+  margin: 20px 0;
+  padding-left: 30px;
+
+  font-family: "Verdana", sans-serif;
+  font-size: 16px;
+  line-height: 18px;
+  color: #591d48;
+  cursor: pointer;
+}
+
+.caption-item:hover {
+  opacity: 0.8;
+}
+
+.caption-item::before {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 20px;
+  height: 20px;
+
+  border-radius: 8px;
+}
+
+.caption-item:nth-child(1)::before {
+  background-color: #86cfa3;
+}
+
+.caption-item:nth-child(2)::before {
+  background-color: #a2c6e0;
+}
+
+.caption-item:nth-child(3)::before {
+  background-color: #ffc7ec;
+}
+
+.caption-item:nth-child(4)::before {
+  background-color: #f8faa0;
+}
+
+.caption-item:nth-child(5)::before {
+  background-color: #adffd8;
+}
+
+.caption-item:nth-child(6)::before {
+  background-color: #f2c48f;
+}
+
+.caption-item:nth-child(7)::before {
+  background-color: #e3bfe2;
+}
+
+.chart {
+  min-width: 300px;
+}
+
+.unit {
+  fill: none;
+  stroke-width: 10;
+  cursor: pointer;
+
+  animation-name: render;
+  animation-duration: 1.5s;
+  transition-property: all;
+  transition-duration: 1.5s;
+}
+
+.unit:hover,
+.hovered {
+  opacity: 0.8;
+  stroke-width: 12;
+}
+
+.unit:nth-child(1) {
+  stroke: #86cfa3;
+  stroke-dasharray: 8 100;
+}
+
+.unit:nth-child(2) {
+  stroke: #a2c6e0;
+  stroke-dasharray: 11 100;
+  stroke-dashoffset: -8;
+}
+
+.unit:nth-child(3) {
+  stroke: #ffc7ec;
+  stroke-dasharray: 11 100;
+  stroke-dashoffset: -19;
+}
+
+.unit:nth-child(4) {
+  stroke: #f8faa0;
+  stroke-dasharray: 14 100;
+  stroke-dashoffset: -30;
+}
+
+.unit:nth-child(5) {
+  stroke: #adffd8;
+  stroke-dasharray: 11 100;
+  stroke-dashoffset: -44;
+}
+
+.unit:nth-child(6) {
+  stroke: #f2c48f;
+  stroke-dasharray: 5 100;
+  stroke-dashoffset: -55;
+}
+
+.unit:nth-child(7) {
+  stroke: #e3bfe2;
+  stroke-dasharray: 40 100;
+  stroke-dashoffset: -60;
+}

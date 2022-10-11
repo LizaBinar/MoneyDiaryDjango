@@ -3,7 +3,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('transactions/', views.MyTransactions.as_view(), name='transactions_home'),
+    path('transactions/', views.HomePage.as_view(), name='transactions_home'),
     path('transaction/<int:pk>/', views.TransactionDetail.as_view(), name='transaction_detail'),
     # path('transactions_type/<int:transactions_type_id>/', TransactionsByCategory.as_view(extra_context={'title': 'Какой-то тайтл'}), name='category'),
     path('accounts/<int:pk>/', views.AccountDetail.as_view(), name='account_detail'),
