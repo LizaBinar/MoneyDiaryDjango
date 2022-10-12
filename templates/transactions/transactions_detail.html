@@ -14,16 +14,16 @@
         <div class="p-1">
             <p>
 
-                {% if  transactions.transactions_type.main_type %}
+                {% if  transaction_one.transactions_type.main_type %}
                     Доход:
                 {% else %}
                     Расход:
                 {% endif %}
-                <b>{{ transactions.transactions_type.category }}</b></p>
-            <p>Сумма: <b>{{ transactions.transactions_type.currency }} {{ transactions.money_value }}</b></p>
-            <p class="text-justify transaction-card__comment_text">Примечание: {{ transactions.comment }}</p>
-            <p>Время добавления: {{ transactions.data_time }}</p>
-            <p>Cчёт транзакции: <b>{{ transactions.accounts.title }}</b></p>
+                <b>{{ transaction_one.transactions_type.category }}</b></p>
+            <p>Сумма: <b>{{ transaction_one.transactions_type.currency }} {{ transaction_one.money_value }}</b></p>
+            <p class="text-justify transaction-card__comment_text">Примечание: {{ transaction_one.comment }}</p>
+            <p>Время добавления: {{ transaction_one.data_time }}</p>
+            <p>Cчёт транзакции: <b>{{ transaction_one.accounts.title }}</b></p>
         </div>
     </div>
 

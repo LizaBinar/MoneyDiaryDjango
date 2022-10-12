@@ -130,9 +130,9 @@ class Transactions(models.Model):
         return str(self.money_value)
 
     def update_balans(self):
-        new_balans = self.accounts
-        new_balans.balans += self.money_value
-        return new_balans.save()
+        account = self.accounts
+        account.balans += self.money_value
+        return account.save()
 
     def save(self, *args, **kwargs):
         if (self.money_value == 0) or (self.money_value < 0 and self.transactions_type.main_type == True) or (
@@ -141,8 +141,8 @@ class Transactions(models.Model):
         if self.transactions_type.currency != self.accounts.currency:
             return False
         super(Transactions, self).save(*args, **kwargs)
-        instance = self.update_balans()
-        return instance
+        self.update_balans()
+
 
     class Meta:
         verbose_name = "Транзакция"
