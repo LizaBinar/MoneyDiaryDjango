@@ -22,7 +22,7 @@
 <p>
 Подставьте свой настройки в app/settings.py (Пароль и адрес своей почты. Данные для подключения БД.)
 
-- python manage.py makemigrations
+- python manage.py makemigrations <app_name>
 - python manage.py migrate
 - python manage.py loaddata start_icons.json
 - python manage.py runserver
