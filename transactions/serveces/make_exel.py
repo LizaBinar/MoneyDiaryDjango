@@ -1,14 +1,18 @@
 import openpyxl
 from openpyxl.styles import Font, PatternFill
 
+green_RGB = "C1E3C9"
+red_RGB = "F3C5CB"
+blue_RGB = "007AFD"
+
 
 def make_color_transaction_xlsx(transaction, row):
     if transaction.money_value > 0:
         for cell in row:
-            cell.fill = PatternFill(fgColor="C1E3C9", fill_type="solid")
+            cell.fill = PatternFill(fgColor=green_RGB, fill_type="solid")
     else:
         for cell in row:
-            cell.fill = PatternFill(fgColor="F3C5CB", fill_type="solid")
+            cell.fill = PatternFill(fgColor=red_RGB, fill_type="solid")
 
 
 def completion_transactions_xlsx(list_table, count_transactions: int, transactions):
@@ -39,7 +43,7 @@ def make_xlsx_layout(list_table, transactions):
     list_table['E1'] = "Примечания"
     for cell in list_table['1']:
         cell.font = Font(size=15, color="FFFFFF", bold=True, italic=True)
-        cell.fill = PatternFill(fgColor="007AFD", fill_type="solid")
+        cell.fill = PatternFill(fgColor=blue_RGB, fill_type="solid")
 
 
 def make_xlsx_file_in_response(response, transactions):

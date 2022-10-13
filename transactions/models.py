@@ -129,11 +129,6 @@ class Transactions(models.Model):
     def __str__(self):
         return str(self.money_value)
 
-    def update_balans(self):
-        account = self.accounts
-        account.balans += self.money_value
-        return account.save()
-
     def save(self, *args, **kwargs):
         if (self.money_value == 0) or (self.money_value < 0 and self.transactions_type.main_type == True) or (
                 self.money_value > 0 and self.transactions_type.main_type == False):
