@@ -34,12 +34,7 @@ class CreateProfilePageView(CreateView):
 
 class ProfileUpdateView(UpdateView):
     model = Profile
-    form_class = ProfileFrom
+    # fields = ['profile_pic', 'bio', 'facebook', 'twitter', 'instagram']
     template_name = 'profile/update_profile.html'
     success_url = reverse_lazy('transactions_home')
-
-
-
-
-
-
+    form_class = ProfileFrom

@@ -12,8 +12,11 @@ class ProfileFrom(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ['profile_pic']
+        fields = ['profile_pic', 'bio', 'facebook', 'twitter', 'instagram']
         widgets = {
-            'profile_pic': forms.FileInput(attrs={'class': 'form-control-file', 'verbose_name': "Красава молодец"}),
+            'profile_pic': forms.FileInput(attrs={'class': 'form-control-file',}),
+            'bio': forms.TextInput(attrs={'class': 'form-control', }),
+            'facebook': forms.TextInput(attrs={'class': 'form-control', }),
+            'twitter': forms.TextInput(attrs={'class': 'form-control', }),
+            'instagram': forms.TextInput(attrs={'class': 'form-control', }),
         }
-

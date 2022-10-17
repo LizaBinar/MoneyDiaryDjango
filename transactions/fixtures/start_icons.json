@@ -108,34 +108,6 @@
       "unicode": "&#xf0b1;",
       "unicode_icons": "\uF0F2"
     }
-  },
-  {
-    "model": "transactions.currency",
-    "pk": 1,
-    "fields": {
-      "title": "₽"
-    }
-  },
-  {
-    "model": "transactions.currency",
-    "pk": 2,
-    "fields": {
-      "title": "$"
-    }
-  },
-  {
-    "model": "transactions.accountstype",
-    "pk": 1,
-    "fields": {
-      "title": "Наличные средства"
-    }
-  },
-  {
-    "model": "transactions.accountstype",
-    "pk": 2,
-    "fields": {
-      "title": "Банковская карта"
-    }
   }
 ]
 

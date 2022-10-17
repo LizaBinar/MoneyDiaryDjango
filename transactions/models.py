@@ -3,6 +3,8 @@ from django.db import models
 from django.urls import reverse
 
 
+
+
 # class CurrencyType(models.Model):
 #     title = True
 
@@ -11,6 +13,7 @@ class Icons(models.Model):
     file = models.CharField(max_length=50, db_index=True, verbose_name="Наименование файла")
     unicode = models.CharField(max_length=50, db_index=True, verbose_name="юникод символа")
     unicode_icons = models.CharField(max_length=50, db_index=True, verbose_name="дешифрованный юникод символа")
+
 
     def get_absolute_url(self):
         return reverse('icons', kwargs={"icons_id": self.pk})
@@ -100,6 +103,9 @@ class TransactionsType(models.Model):
         ordering = ['main_type']
 
 
+
+
+
 class Transactions(models.Model):
     money_value = models.DecimalField(verbose_name='Денежная сумма', max_digits=17, decimal_places=2)
     comment = models.TextField(verbose_name='Примечание к транзакции', max_length=150, blank=True)
@@ -129,6 +135,20 @@ class Transactions(models.Model):
     def __str__(self):
         return str(self.money_value)
 
+
+    def update_balans(self):
+        account = self.accounts
+        get_all_money_value = Transactions.objects.filter(accounts=account)
+        while True:
+            account.balans = 0
+            try:
+                for i in range(10000000000000):
+                    all_money = get_all_money_value.values('money_value')[i]['money_value']
+                    account.balans += all_money
+                    print(all_money)
+            except IndexError:
+                return account.save()
+
     def save(self, *args, **kwargs):
         if (self.money_value == 0) or (self.money_value < 0 and self.transactions_type.main_type == True) or (
                 self.money_value > 0 and self.transactions_type.main_type == False):
@@ -138,11 +158,11 @@ class Transactions(models.Model):
         super(Transactions, self).save(*args, **kwargs)
         self.update_balans()
 
+    def delete(self, using=None, keep_parents=False):
+        super(Transactions, self).delete()
+        self.update_balans()
 
     class Meta:
         verbose_name = "Транзакция"
         verbose_name_plural = "Транзакции"
         ordering = ['-data_time']
-
-
-

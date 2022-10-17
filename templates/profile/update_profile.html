@@ -2,16 +2,16 @@
 
 {% block content %}
     <div class="card my-chadow my-margin my-padding">
-        <h1>Выберите новую аватарку</h1>
-        {#    <form action="" method="post">#}
+        <h1>Редактировать профиль</h1><br>
         <form method="POST" enctype="multipart/form-data" action="" novalidate>
             {% csrf_token %}
             {{ form.as_p }}
-{#            <input class="button" type="submit" value="Update"/>#}
 
-            <button type="submit" class="btn btn-primary btn-block">Изменить аватарку</button>
+            <button type="submit" class="btn btn-primary btn-block">Редактировать</button>
 
         </form>
     </div>
+
+
 
 {% endblock content %}

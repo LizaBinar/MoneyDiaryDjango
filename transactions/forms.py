@@ -5,7 +5,7 @@ from .models import Transactions, Accounts, TransactionsType
 from transactions.fields import MoneyField
 
 
-class TransactionForm(forms.ModelForm):
+class TransactionFrom(forms.ModelForm):
     money_value = MoneyField(widget=forms.TextInput(attrs={'class': 'form-control money_input'}))
 
     def __init__(self, *args, **kwargs):
