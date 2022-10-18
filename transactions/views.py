@@ -5,15 +5,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
 from django.http import QueryDict, HttpResponse
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DetailView, UpdateView
-from qsstats import QuerySetStats
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView  # , UpdateView
+# from qsstats import QuerySetStats
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from transactions.forms import TransactionForm, AccountForm, TransactionTypeForm
-from transactions.make_chart import make_chart
-from transactions.make_exel import make_xlsx_file_in_response
-from transactions.models import Transactions, Accounts, TransactionsType, Icons
+from transactions.models import Transactions, Accounts, TransactionsType  # , Icons
+from transactions.serveces.make_chart import ChartsLogic
+from transactions.serveces.make_exel import make_xlsx_file_in_response
 from transactions.utils import TransactionMixin
 
 
@@ -37,8 +37,9 @@ def upload_exel(request):
 class TransactionChartAPIView(APIView):
 
     def get(self, request):
+        chart_logic = ChartsLogic()
         transactions = Transactions.objects.filter(owner=request.user)
-        ratio_chart = make_chart(transactions, 'data_time__date')
+        ratio_chart = chart_logic.make_chart(transactions=transactions, grouping_by_date='data_time__date')
         return Response({'label': ratio_chart['label'], 'income_data': ratio_chart['income_data'],
                          'expenditure_data': ratio_chart['expenditure_data']})
 
@@ -48,30 +49,26 @@ class HomePage(LoginRequiredMixin, TransactionMixin, ListView):
     template_name = "transactions/home_transactions_list.html"
     context_object_name = 'transactions'
     queryset = 'category'
-    login_url = '/admin'
+
+    # login_url = '/users/logout'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         accounts = Accounts.objects.filter(owner=self.request.user)
         base_context = self.get_basic_transactions_context(title="Главная панель", user=self.request.user)
-        transactions = Transactions.objects.filter(owner=self.request.user)
         context = super().get_context_data(**kwargs)
-
-        ratio_chart = make_chart(transactions, 'data_time__date')
-        context['label'] = ratio_chart['label']
-        context['income_data'] = ratio_chart['income_data']
-        context['expenditure_data'] = ratio_chart['expenditure_data']
         context['month'] = datetime.datetime.now()
-        context['chart_file'] = '\MyBarChartDrawing000.png'
         context['sum_balans'] = QueryDict(urlencode(sum_balans(accounts)))
         context = dict(list(context.items()) + list(base_context.items()))
         return context
 
 
-class TransactionDetail(LoginRequiredMixin, TransactionMixin,DetailView):
+class TransactionDetail(LoginRequiredMixin, TransactionMixin, DetailView):
     model = Transactions  # pk=self.kwargs['category_id'])
     template_name = 'transactions/transactions_detail.html'
     # context_object_name = 'transaction'
     allow_empty = False
+
+    # login_url = '/users/logout/'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         base_context = self.get_basic_transactions_context(title="Детали транзакции", user=self.request.user)
@@ -113,6 +110,8 @@ class AccountDetail(LoginRequiredMixin, TransactionMixin, DetailView):  # MyMixi
     template_name = "transactions/account_detail.html"
     allow_empty = False
 
+    # login_url = '/users/logout/'
+
     def get_context_data(self, *, object_list=None, **kwargs):
         base_context = self.get_basic_transactions_context(title="Счёт", user=self.request.user)
         context = super().get_context_data(**kwargs)
@@ -129,7 +128,8 @@ class CategoryListForMakeTransaction(LoginRequiredMixin, TransactionMixin, ListV
     template_name = 'transactions/category_list_for_make_transaction.html'
     context_object_name = 'categories'
     allow_empty = False
-    login_url = '/login/'
+
+    # login_url = '/users/logout/'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -149,7 +149,8 @@ class CreateTransaction(LoginRequiredMixin, TransactionMixin, CreateView):
     form_class = TransactionForm
     template_name = 'transactions/add_transactions.html'
     success_url = reverse_lazy('transactions_home')
-    login_url = '/admin/'
+
+    # login_url = '/users/logout/'
 
     def get_form(self, form_class=TransactionForm):
         category = TransactionsType.objects.get(id=self.kwargs['category_id'])
@@ -157,8 +158,9 @@ class CreateTransaction(LoginRequiredMixin, TransactionMixin, CreateView):
         accounts = Accounts.objects.filter(owner=self.request.user, currency=category.currency)
         form.fields['accounts'].queryset = accounts
         form.fields['accounts'].initial = accounts.first()
-        form.fields['transactions_type'].queryset = TransactionsType.objects.filter(owner=self.request.user).filter(
-            main_type=category.main_type)
+        form.fields['transactions_type'].queryset = TransactionsType.objects.filter(owner=self.request.user,
+                                                                                    currency=category.currency,
+                                                                                    main_type=category.main_type)
         form.fields['transactions_type'].initial = category
         form.fields['money_value'].label = "Денежная сумма"
         return form
@@ -182,7 +184,8 @@ class CreateAccount(LoginRequiredMixin, TransactionMixin, CreateView):
     form_class = AccountForm
     template_name = 'transactions/add_account.html'
     success_url = reverse_lazy('transactions_home')
-    login_url = '/admin/'
+
+    # login_url = '/users/logout/'
 
     def get_form(self, form_class=AccountForm):
         form = super().get_form(form_class=form_class)
@@ -207,7 +210,8 @@ class CreateTransactionType(LoginRequiredMixin, TransactionMixin, CreateView):
     form_class = TransactionTypeForm
     template_name = 'transactions/add_transactions_type.html'
     success_url = reverse_lazy('transactions_home')
-    login_url = '/admin/'
+
+    # login_url = '/users/logout/'
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
@@ -230,4 +234,28 @@ class CreateTransactionType(LoginRequiredMixin, TransactionMixin, CreateView):
         return TransactionsType.objects.filter(owner=self.request.user)
 
 
+class UpdateTransaction(UpdateView):
+    model = Transactions
+    template_name = 'transactions/transaction_update.html'
+    success_url = reverse_lazy('transactions_home')
+    form_class = TransactionForm
 
+    def get_form(self, form_class=TransactionForm):
+        category = TransactionsType.objects.get(id=self.kwargs['pk'])
+        form = super().get_form(form_class=form_class)
+        data_for_forms = super(UpdateTransaction, self).get_form()
+        accounts = Accounts.objects.filter(owner=self.request.user, currency=category.currency)
+        form.fields['accounts'].queryset = accounts
+        form.fields['accounts'].initial = accounts.first()
+        form.fields['transactions_type'].queryset = TransactionsType.objects.filter(owner=self.request.user,
+                                                                                    currency=category.currency,
+                                                                                    main_type=category.main_type)
+        form.fields['transactions_type'].initial = category
+        form.fields['money_value'].label = "Денежная сумма"
+        return form
+
+
+class DeleteTransaction(DeleteView):
+    model = Transactions
+    template_name = 'transactions/transaction_delete.html'
+    success_url = reverse_lazy('transactions_home')

@@ -1,4 +1,4 @@
-from transactions.models import Transactions, Accounts, Icons
+from transactions.models import Transactions, Accounts, Icons, TransactionsType
 
 title = "title_text"
 
@@ -15,3 +15,13 @@ class TransactionMixin:
         context['accounts'] = accounts
         context[icons] = icons
         return context
+
+    # def get_basic_transactions_forms_data(self, user, **kwargs):
+    #     data_for_forms = kwargs
+    #     transactions = Transactions.objects.filter(owner=user)
+    #     transaction_types = TransactionsType.objects.filter(owner=user)
+    #     accounts = Accounts.objects.filter(owner=user)
+    #     data_for_forms['transactions'] = transactions
+    #     data_for_forms['transaction_types'] = transaction_types
+    #     data_for_forms['accounts'] = accounts
+    #     return data_for_forms

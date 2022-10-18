@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block profile %}
+    {% include 'inc/_profile.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="flex-col card my-chadow my-margin my-padding">
+        <h1>Удаление транзакции</h1>
+        <div class="p-1">
+
+            <form method="POST">
+                {% csrf_token %}
+                <p>Вы уверены, что хотите удалить?</p>
+                <button type="submit" class="btn btn-danger btn-block">Удалить</button>
+
+            </form>
+
+
+        </div>
+    </div>
+
+{% endblock %}

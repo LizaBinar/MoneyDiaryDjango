@@ -24,6 +24,10 @@
             <p class="text-justify transaction-card__comment_text">Примечание: {{ transaction_one.comment }}</p>
             <p>Время добавления: {{ transaction_one.data_time }}</p>
             <p>Cчёт транзакции: <b>{{ transaction_one.accounts.title }}</b></p>
+            <p><a href="{% url 'transactions_update' transaction_one.id %}"
+                  class="btn btn-primary btn-block">Редактировать</a></p>
+            <p><a href="{% url 'transactions_delete' transaction_one.id %}" class="btn btn-danger btn-block">Удалить</a>
+            </p>
         </div>
     </div>
 

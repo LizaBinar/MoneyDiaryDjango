@@ -2,9 +2,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 
+from transactions.serveces.processing_tranasctions import TransactionsLogic
 
-# class CurrencyType(models.Model):
-#     title = True
 
 class Icons(models.Model):
     title = models.CharField(max_length=50, db_index=True, verbose_name="Наименование")
@@ -28,7 +27,6 @@ class Currency(models.Model):
     title = models.CharField(max_length=50, db_index=True, verbose_name="Наименование валюты")
 
     # type_id = True
-
     def get_absolute_url(self):
         return reverse('currency', kwargs={"currency_id": self.pk})
 
@@ -57,7 +55,7 @@ class AccountsType(models.Model):
 
 
 class Accounts(models.Model):
-    balans = models.DecimalField(verbose_name="Баланс счета", max_digits=17, decimal_places=2)
+    balans = models.DecimalField(verbose_name="Баланс счета", max_digits=17, decimal_places=2, blank=True)
     title = models.CharField(max_length=60, db_index=True, verbose_name="Наименование счета")
     owner = models.ForeignKey(User, on_delete=models.PROTECT, null=True, verbose_name='Владелец счёта')
     accounts_type = models.ForeignKey(AccountsType, on_delete=models.PROTECT, null=True, verbose_name="Тип счёта")
@@ -123,6 +121,8 @@ class Transactions(models.Model):
         verbose_name="Счёт транзакции"
     )
 
+
+
     def get_absolute_url(self):
         return reverse('transactions', kwargs={"pk": self.pk})
 
@@ -136,13 +136,15 @@ class Transactions(models.Model):
         if self.transactions_type.currency != self.accounts.currency:
             return False
         super(Transactions, self).save(*args, **kwargs)
-        self.update_balans()
+        # self.transactions_logic = TransactionsLogic(account=self.accounts, money_value=self.money_value, transactions=Transactions.objects.filter(owner=self.owner, transactions_type__currency=self.transactions_type.currency, accounts=self.accounts))
+        # self.transactions_logic.update_balans()
 
+    def delete(self, using=None, keep_parents=False):
+        super(Transactions, self).delete()
+        # self.transactions_logic = TransactionsLogic(account=self.accounts, money_value=self.money_value, transactions=Transactions.objects.filter(owner=self.owner, transactions_type__currency=self.transactions_type.currency, accounts=self.accounts))
+        # self.transactions_logic.update_balans()
 
     class Meta:
         verbose_name = "Транзакция"
         verbose_name_plural = "Транзакции"
         ordering = ['-data_time']
-
-
-
