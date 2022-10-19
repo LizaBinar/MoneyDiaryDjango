@@ -14,7 +14,7 @@
 //         });
 // })
 $(function () {
-    $('.money_input').maskMoney({thousands: ' ', decimal: '.', allowEmpty: false, allowZero: true});
+    $('.money_input').maskMoney({thousands: ' ', decimal: '.', allowEmpty: false, allowZero: true, allowNegative: true});
 })
 
 

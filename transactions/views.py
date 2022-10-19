@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from transactions.forms import TransactionForm, AccountForm, TransactionTypeForm
-from transactions.models import Transactions, Accounts, TransactionsType  # , Icons
+from transactions.models import Transactions, Accounts, TransactionsType, Currency  # , Icons
 from transactions.serveces.make_chart import ChartsLogic
 from transactions.serveces.make_exel import make_xlsx_file_in_response
 from transactions.utils import TransactionMixin
@@ -36,9 +36,10 @@ def upload_exel(request):
 
 class TransactionChartAPIView(APIView):
 
-    def get(self, request):
+    def get(self, request, title):
+        currency = Currency.objects.get(title=self.kwargs['title'])
         chart_logic = ChartsLogic()
-        transactions = Transactions.objects.filter(owner=request.user, transactions_type__currency_id=1)
+        transactions = Transactions.objects.filter(owner=request.user, transactions_type__currency=currency)
         ratio_chart = chart_logic.make_chart(transactions=transactions, grouping_by_date='data_time__date')
         return Response({'label': ratio_chart['label'], 'income_data': ratio_chart['income_data'],
                          'expenditure_data': ratio_chart['expenditure_data']})
@@ -49,7 +50,6 @@ class HomePage(LoginRequiredMixin, TransactionMixin, ListView):
     template_name = "transactions/home_transactions_list.html"
     context_object_name = 'transactions'
     queryset = 'category'
-
 
     def get_context_data(self, *, object_list=None, **kwargs):
         accounts = Accounts.objects.filter(owner=self.request.user)
@@ -225,7 +225,6 @@ class UpdateTransaction(UpdateView):
     def get_form(self, form_class=TransactionForm):
         category = TransactionsType.objects.get(id=self.kwargs['pk'])
         form = super().get_form(form_class=form_class)
-        data_for_forms = super(UpdateTransaction, self).get_form()
         accounts = Accounts.objects.filter(owner=self.request.user, currency=category.currency)
         form.fields['accounts'].queryset = accounts
         form.fields['accounts'].initial = accounts.first()
