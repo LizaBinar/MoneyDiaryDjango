@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block profile %}
+    {% include 'inc/_profile.html' %}
+{% endblock %}
+
+{% block menu %}
+    {% include 'transaction includes/profile_finances_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="flex-col p-2 m-2" style="margin: 15px; width: 100%">
+        <h4>Выберите счёт</h4>
+        {{ mixin_prop }}
+        <div class="d-flex flex-col card p-3 my-chadow" style="margin: 15px;">
+
+            {% for account in accounts %}
+
+                <div class="d-flex flex-row transaction_type align-items-center">
+                    <div class="d-flex align-items-center my-padding">
+                    </div>
+                    <div href="{% url 'choice_category' account.pk %}" class="d-flex mb-1">
+                        <a type="a" href="{% url 'choice_category' account.pk %}"
+                           class="btn btn-outline-primary transaction_type__button"><b>{{ account.title }}</b> {{ account.category }}
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
