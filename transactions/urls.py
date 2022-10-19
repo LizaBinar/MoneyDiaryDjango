@@ -16,7 +16,7 @@ urlpatterns = [
     path('add_transaction_type/<str:main_type>/', views.CreateTransactionType.as_view(), name='add_transaction_type'),
     path('get_xlsx_file/', views.upload_exel, name="upload_exel"),
 
-    path('make_income_expenditure/', views.TransactionChartAPIView.as_view(), name='make_income_expenditure'),
+    path('make_income_expenditure/<str:title>/', views.TransactionChartAPIView.as_view(), name='make_income_expenditure'),
 
     path('transactions/<int:pk>/update', views.UpdateTransaction.as_view(), name='transactions_update'),
     path('transactions/<int:pk>/delete', views.DeleteTransaction.as_view(), name='transactions_delete'),

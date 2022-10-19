@@ -1,4 +1,4 @@
-from transactions.models import Transactions, Accounts, Icons, TransactionsType
+from transactions.models import Transactions, Accounts, Icons, TransactionsType, Currency
 
 title = "title_text"
 
@@ -10,9 +10,11 @@ class TransactionMixin:
         transactions = Transactions.objects.filter(owner=user)
         accounts = Accounts.objects.filter(owner=user)
         icons = Icons.objects.exclude(unicode='---')
+        currency = Currency.objects.all()
         context['user'] = user
         context['transactions'] = transactions
         context['accounts'] = accounts
+        context['currency'] = currency
         context[icons] = icons
         return context
 
