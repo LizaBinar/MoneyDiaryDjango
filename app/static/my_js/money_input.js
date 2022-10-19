@@ -13,14 +13,8 @@
 //             // max: 999.99
 //         });
 // })
-
 $(function () {
-    $('.money_input').maskMoney({thousands: ' ', decimal: '.', allowNegative: true});
-    let money_value = document.querySelector('.money_input').maskMoney('unmasked');
-
-    // $(".money_input").submit(function () {
-    //     $('.money_input').val($('.money_input').maskMoney('unmasked')[0])
-    // });
+    $('.money_input').maskMoney({thousands: ' ', decimal: '.', allowEmpty: false, allowZero: true});
 })
 
 

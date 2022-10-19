@@ -38,7 +38,7 @@ class TransactionChartAPIView(APIView):
 
     def get(self, request):
         chart_logic = ChartsLogic()
-        transactions = Transactions.objects.filter(owner=request.user)
+        transactions = Transactions.objects.filter(owner=request.user, transactions_type__currency_id=1)
         ratio_chart = chart_logic.make_chart(transactions=transactions, grouping_by_date='data_time__date')
         return Response({'label': ratio_chart['label'], 'income_data': ratio_chart['income_data'],
                          'expenditure_data': ratio_chart['expenditure_data']})
@@ -50,7 +50,6 @@ class HomePage(LoginRequiredMixin, TransactionMixin, ListView):
     context_object_name = 'transactions'
     queryset = 'category'
 
-    # login_url = '/users/logout'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         accounts = Accounts.objects.filter(owner=self.request.user)
@@ -77,40 +76,11 @@ class TransactionDetail(LoginRequiredMixin, TransactionMixin, DetailView):
         context = dict(list(context.items()) + list(base_context.items()))
         return context
 
-    #
-    #
-    # def get_context_data(self, *, object_list=None, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['transaction'] = Transactions.objects.get(pk=self.kwargs['transaction_id'])
-    #     return context
-    #
-    # def get_queryset(self):
-    #     return Transactions.objects.filter(pk=self.kwargs['transaction_id'])
-
-
-# class TransactionsByCategory(LoginRequiredMixin, ListView):  # MyMixin
-#     model = Transactions.objects.filter()
-#     template_name = 'transactions/home_transactions_list.html'
-#     context_object_name = 'transactions'
-#     allow_empty = False
-#     login_url = '/login/'
-#
-#     def get_context_data(self, *, object_list=None, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['title'] = TransactionsType.objects.get(pk=self.kwargs['transactions_type_id'])
-#         context['accounts'] = Accounts.objects.filter(owner=self.request.user)
-#         return context
-#
-#     def get_queryset(self):
-#         return Transactions.objects.filter(transactions_type=self.kwargs['transactions_type_id'])
-
 
 class AccountDetail(LoginRequiredMixin, TransactionMixin, DetailView):  # MyMixin
     model = Accounts
     template_name = "transactions/account_detail.html"
     allow_empty = False
-
-    # login_url = '/users/logout/'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         base_context = self.get_basic_transactions_context(title="Счёт", user=self.request.user)
@@ -119,8 +89,19 @@ class AccountDetail(LoginRequiredMixin, TransactionMixin, DetailView):  # MyMixi
         context = dict(list(context.items()) + list(base_context.items()))
         return context
 
-    # def get_queryset(self):
-    #     return Transactions.objects.filter(accounts=self.kwargs['accounts_id'])
+
+class AccountListForMakeTransaction(LoginRequiredMixin, TransactionMixin, ListView):
+    model = Accounts
+    template_name = 'transactions/account_list_for_make_transaction.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        base_context = self.get_basic_transactions_context(user=self.request.user, title="Выбор счёта")
+        context = dict(list(context.items()) + list(base_context.items()))
+        return context
+
+    def get_queryset(self):
+        return TransactionsType.objects.filter(owner=self.request.user)
 
 
 class CategoryListForMakeTransaction(LoginRequiredMixin, TransactionMixin, ListView):
@@ -132,9 +113,10 @@ class CategoryListForMakeTransaction(LoginRequiredMixin, TransactionMixin, ListV
     # login_url = '/users/logout/'
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        account = Accounts.objects.get(id=self.kwargs['account_id'])
         context = super().get_context_data(**kwargs)
         base_context = self.get_basic_transactions_context(title="Выбор категории", user=self.request.user)
-        transactions_type = TransactionsType.objects.filter(owner=self.request.user)
+        transactions_type = TransactionsType.objects.filter(owner=self.request.user, currency=account.currency)
         context['expenditure'] = transactions_type.filter(main_type=False)
         context['income'] = transactions_type.filter(main_type=True)
         context = dict(list(context.items()) + list(base_context.items()))
