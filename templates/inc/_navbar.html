@@ -1,6 +1,6 @@
 <nav class="navbar navbar-light bg-light my-chadow">
     <a class="navbar-brand" href="{% url 'transactions_home' %}">
-        <img src="/static/bootstrap-icons-1.9.1/bootstrap.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+        <img src="/static/bootstrap-icons-1.9.1/money-svgrepo-com.svg" width="30" height="30" class="d-inline-block align-top" alt="">
         MoneyDiary
     </a>
 
@@ -40,7 +40,7 @@
             {% if request.user.is_authenticated %}
                 Добро пожаловать, {{ user.username }} | <a href="{% url 'logout' %}">Выход</a>
             {% else %}
-                <a href="#">Регистрация</a> | <a href="{% url 'login' %}">Вход</a>
+                <a href="{% url 'registration' %}">Регистрация</a> | <a href="{% url 'login' %}">Вход</a>
             {% endif %}
         </span>
     {% comment %}

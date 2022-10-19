@@ -8,41 +8,20 @@ from transactions.models import Transactions, TransactionsType, Accounts, Curren
 
 
 class TestViews(TestCase):
+    fixtures = ['start_icons.json', ]
 
     def setUp(self):
         self.client = Client()
         self.user = User.objects.create_user('test_user', password='test_pass')
         self.client.login(username='test_user', password='test_pass')
-        self.currency = Currency.objects.create(
-            pk=1,
-            title="SF coin",
-        )
-        self.account = Accounts.objects.create(
-            pk=3,
-            title="Uragan Bank Zakviel",
-            balans=0,
-            owner=self.user
-        )
-        self.transaction_type = TransactionsType.objects.create(
-            pk=3,
-            main_type=True,
-            category="brains",
-            owner=self.user,
-        )
-        TransactionsType.objects.create(
-            pk=4,
-            main_type=False,
-            category="SF chill",
-            owner=self.user,
-        )
 
     def test_transaction_have_detail_GET(self):
         self.transaction = Transactions.objects.create(
-            transactions_type_id=3,
+            transactions_type=TransactionsType.objects.last(),
             pk=3,
             money_value=Decimal(1000.00),
             comment="don't read me please, ok?",
-            accounts_id=3,
+            accounts=Accounts.objects.first(),
             owner=self.user
         )
         response = self.client.get(reverse('transaction_detail', args=[3]))
@@ -67,7 +46,8 @@ class TestViews(TestCase):
         self.assertTemplateUsed(response, 'transactions/home_transactions_list.html')
 
     def test_account_detail_GET(self):
-        response = self.client.get(reverse('account_detail', args=[3]))
+        account_pk = Accounts.objects.first().pk
+        response = self.client.get(reverse('account_detail', args=[account_pk]))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'transactions/account_detail.html')
 
@@ -77,7 +57,8 @@ class TestViews(TestCase):
         self.assertTemplateUsed(response, 'transactions/category_list_for_make_transaction.html')
 
     def test_add_transaction_GET(self):
-        response = self.client.get(reverse('add_transaction', args=[3]))
+        transaction_type_pk = TransactionsType.objects.first().pk
+        response = self.client.get(reverse('add_transaction', args=[transaction_type_pk]))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'transactions/add_transactions.html')
 

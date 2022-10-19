@@ -3,7 +3,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('transactions/', views.HomePage.as_view(), name='transactions_home'),
+    path('', views.HomePage.as_view(), name='transactions_home'),
     path('transaction/<int:pk>/', views.TransactionDetail.as_view(), name='transaction_detail'),
     # path('transactions_type/<int:transactions_type_id>/', TransactionsByCategory.as_view(extra_context={'title': 'Какой-то тайтл'}), name='category'),
     path('accounts/<int:pk>/', views.AccountDetail.as_view(), name='account_detail'),
@@ -14,5 +14,9 @@ urlpatterns = [
     path('add_transaction_type/<str:main_type>/', views.CreateTransactionType.as_view(), name='add_transaction_type'),
     path('get_xlsx_file/', views.upload_exel, name="upload_exel"),
 
-    path('make_income_expenditure/', views.TransactionChartAPIView.as_view(), name='make_income_expenditure')
+    path('make_income_expenditure/', views.TransactionChartAPIView.as_view(), name='make_income_expenditure'),
+
+    path('transactions/<int:pk>/update', views.UpdateTransaction.as_view(), name='transactions_update'),
+    path('transactions/<int:pk>/delete', views.DeleteTransaction.as_view(), name='transactions_delete'),
+
 ]

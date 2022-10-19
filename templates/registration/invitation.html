@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block main %}
+    <div class="logaut-page">
+        <div class="d-flex flex-col align-content-end flex-wrap card logaut-page__card">
+            <h3>Добро пожаловать!</h3>
+            <div href="" class="d-flex card mb-1">
+                <a type="a" href="{% url 'login' %}" class="btn btn-outline-primary">Войти</a>
+            </div>
+            <div href="" class="d-flex card mb-1">
+                <a type="a" href="{% url 'registration' %}" class="btn btn-outline-primary">Зарегистрироваться</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
