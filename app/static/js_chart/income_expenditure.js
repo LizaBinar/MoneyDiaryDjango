@@ -1,8 +1,8 @@
 "use strict"
 
 
-function makeIncomeExpenditureChart(title) {
-    fetch('/transactions/make_income_expenditure/' + title + '/')
+function makeIncomeExpenditureChart(id_currency) {
+    fetch('/transactions/make_income_expenditure/' + String(id_currency) + '/')
         .then((response) => {
             return response.json();
         })
@@ -12,7 +12,7 @@ function makeIncomeExpenditureChart(title) {
             // Chart.defaults.global.defaultFontSize = 12;
 
             let dataFirst = {
-                label: "Расход " + title,
+                label: data.title + " Расход",
                 data: data.expenditure_data,
                 lineTension: 0,
                 fill: true,
@@ -21,7 +21,7 @@ function makeIncomeExpenditureChart(title) {
             };
 
             let dataSecond = {
-                label: "Доход " + title,
+                label: data.title + " Доход",
                 data: data.income_data,
                 lineTension: 0,
                 fill: true,
@@ -57,16 +57,15 @@ function makeIncomeExpenditureChart(title) {
 
 Array.from(document.querySelectorAll('.button_income_expenditure'), function (el) {
     el.onclick = function () {
-        var title
-        title = ($(el).text());
-
-        makeIncomeExpenditureChart(title)
+        let id_currency
+        id_currency = el.value;
+        makeIncomeExpenditureChart(id_currency)
     };
 });
 
 
 function codeAddress() {
-    makeIncomeExpenditureChart('₽')
+    makeIncomeExpenditureChart(1)
 }
 
 window.onload = codeAddress;

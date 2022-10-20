@@ -9,14 +9,14 @@ urlpatterns = [
     path('accounts/<int:pk>/', views.AccountDetail.as_view(), name='account_detail'),
     path('choice_account/', views.AccountListForMakeTransaction.as_view(extra_context={'title': 'Выбор категории'}),
          name='choice_account'),
-    path('choice_сategory/<int:account_id>', views.CategoryListForMakeTransaction.as_view(extra_context={'title': 'Выбор категории'}),
+    path('choice_сategory/<int:account_id>/', views.CategoryListForMakeTransaction.as_view(extra_context={'title': 'Выбор категории'}),
          name='choice_category'),
     path('add_transaction/<int:category_id>/', views.CreateTransaction.as_view(), name='add_transaction'),
     path('add_account/', views.CreateAccount.as_view(), name='add_account'),
     path('add_transaction_type/<str:main_type>/', views.CreateTransactionType.as_view(), name='add_transaction_type'),
     path('get_xlsx_file/', views.upload_exel, name="upload_exel"),
 
-    path('make_income_expenditure/<str:title>/', views.TransactionChartAPIView.as_view(), name='make_income_expenditure'),
+    path('make_income_expenditure/<int:id_currency>/', views.TransactionChartAPIView.as_view(), name='make_income_expenditure'),
 
     path('transactions/<int:pk>/update', views.UpdateTransaction.as_view(), name='transactions_update'),
     path('transactions/<int:pk>/delete', views.DeleteTransaction.as_view(), name='transactions_delete'),
