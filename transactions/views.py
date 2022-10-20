@@ -36,13 +36,13 @@ def upload_exel(request):
 
 class TransactionChartAPIView(APIView):
 
-    def get(self, request, title):
-        currency = Currency.objects.get(title=self.kwargs['title'])
+    def get(self, request, id_currency):
+        currency = Currency.objects.get(id=self.kwargs['id_currency'])
         chart_logic = ChartsLogic()
         transactions = Transactions.objects.filter(owner=request.user, transactions_type__currency=currency)
         ratio_chart = chart_logic.make_chart(transactions=transactions, grouping_by_date='data_time__date')
         return Response({'label': ratio_chart['label'], 'income_data': ratio_chart['income_data'],
-                         'expenditure_data': ratio_chart['expenditure_data']})
+                         'expenditure_data': ratio_chart['expenditure_data'], 'title': currency.title})
 
 
 class HomePage(LoginRequiredMixin, TransactionMixin, ListView):
@@ -223,15 +223,14 @@ class UpdateTransaction(UpdateView):
     form_class = TransactionForm
 
     def get_form(self, form_class=TransactionForm):
-        category = TransactionsType.objects.get(id=self.kwargs['pk'])
+        transaction = Transactions.objects.get(id=self.kwargs['pk'])
         form = super().get_form(form_class=form_class)
-        accounts = Accounts.objects.filter(owner=self.request.user, currency=category.currency)
+        accounts = Accounts.objects.filter(owner=self.request.user, currency=transaction.transactions_type.currency)
         form.fields['accounts'].queryset = accounts
-        form.fields['accounts'].initial = accounts.first()
+        form.fields['accounts'].initial = transaction.accounts
         form.fields['transactions_type'].queryset = TransactionsType.objects.filter(owner=self.request.user,
-                                                                                    currency=category.currency,
-                                                                                    main_type=category.main_type)
-        form.fields['transactions_type'].initial = category
+                                                                                    currency=transaction.transactions_type.currency)
+        form.fields['transactions_type'].initial = transaction.transactions_type
         form.fields['money_value'].label = "Денежная сумма"
         return form
 

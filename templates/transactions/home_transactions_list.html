@@ -19,10 +19,12 @@
 {% block main %}
 
 
+
+
     <div class="card my-margin my-padding my-chadow" id="container">
     <div class="d-flex flex-row justify-content-center">
         {% for currency in currency %}
-            <button id="button_income_expenditure" class="button_income_expenditure btn btn-secondary" value="{{ currency.title }}" style="margin: 5px; width: 100px">{{ currency.title }}</button>
+            <button id="button_income_expenditure" class="button_income_expenditure btn btn-secondary" value="{{ currency.pk }}" style="margin: 5px; width: 100px">{{ currency.title }}</button>
         {% endfor %}
     </div>
         {#    <canvas id="pie-chart"></canvas>#}
