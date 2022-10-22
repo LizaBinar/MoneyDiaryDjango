@@ -10,25 +10,36 @@
 
 ### About
 
-
 Сайт для ведения домашней бухгалтерии.
 
 ### Start
 
 Для запуска проекта, установите все библиотеки из requirements.txt.
-Создайте файл .env в корне проекта и заполните его по примеру с изображения. 
-<p align="center">
+- pip install -r requirements.txt
+
+Создайте файл .env в корне проекта и заполните его по примеру с изображения, тут будут храниться пароли для файла settings.py.
+(По умолчанию в проекте используется Postgres. Однако при желании можете изменить в файле app/settings.py настройки БД под свою любимую СУБД.) 
 <img src="https://i.ibb.co/vZT58Qs/image.png"> 
+
+<p align="center">
 <p>
 Подставьте свой настройки в app/settings.py (Пароль и адрес своей почты. Данные для подключения БД.)
 
-- python manage.py makemigrations
+Инициализируем стартовые миграции:
+- python manage.py makemigrations accounts
+- python manage.py makemigrations profiles
+- python manage.py makemigrations transactions
+- python manage.py makemigrations users
+
+Применяем миграции:
 - python manage.py migrate
+
+Создаем базовые данные в БД
 - python manage.py loaddata start_icons.json
+
+Запускаем сервер и радуемся!
 - python manage.py runserver
 
-И переходите на домашнюю страницу.
-<b>http://127.0.0.1:8000/transactions/transactions/<b>
 
 ### Developers
 
