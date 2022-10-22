@@ -32,6 +32,7 @@
 - python manage.py makemigrations users
 
 Применяем миграции:
+
 - python manage.py migrate
 
 Создаем базовые данные в БД
