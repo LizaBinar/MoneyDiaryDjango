@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://i.ibb.co/BsSYhcT/QI4r-e-Tyd4-I.jpg">
+    <img src="https://sun9-51.userapi.com/impg/XkzZvs5hqg2vzkhhF5SwC5wGt5gstpIg7IcsQw/jfCP3kGBw2M.jpg?size=1881x863&quality=96&sign=fe963176927ffc68c5a892fb8bb817ea&type=album">
 </p>
 
 <p align="center">
