@@ -11,7 +11,6 @@
 ### About
 
 Сайт для ведения домашней бухгалтерии.
-На данный момент хостится тут: http://lizabinar.beget.tech/transactions/
 
 ### Start
 
